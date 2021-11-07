@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/aws/aws-sdk-go v1.41.19
 	github.com/guregu/dynamo v1.11.0
+	github.com/joho/godotenv v1.4.0
 )
 
 require (
