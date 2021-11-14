@@ -47,27 +47,33 @@ func main() {
 	// db.Table("UserTable").DeleteTable().Run()
 
 	// テーブル作成
-	// err = db.CreateTable("UserTable", User{}).Run()
-	// if err != nil {
-	// 	fmt.Println("err1")
-	// 	panic(err)
-	// }
+	err = db.CreateTable("UserTable", User{}).Run()
+	if err != nil {
+		fmt.Println("err1")
+		panic(err)
+	}
 	// テーブルの指定
 	table := db.Table("UserTable")
 
 	// User構造体をuser変数に定義
 	var user User
 
+	// 現在時刻を取得
+	now := time.Now()
+	// 1時間後に削除
+	setTTL := now.Add(1 * time.Hour).Unix()
+
 	// DBにPutします
-	// err = table.Put(&User{
-	// 	UserID: "1234",
-	// 	Name:   "太郎",
-	// 	Age:    20,
-	// }).Run()
-	// if err != nil {
-	// 	fmt.Println("err2")
-	// 	panic(err)
-	// }
+	err = table.Put(&User{
+		UserID: "1234",
+		Name:   "太郎",
+		Age:    20,
+		Text:   "新しいtextです",
+		TTL:    setTTL,
+	}).Run()
+	if err != nil {
+		panic(err)
+	}
 
 	// DBからGetします
 
@@ -80,8 +86,8 @@ func main() {
 
 	// DBのデータをUpdateします
 	// text := "新しいtextです"
-	now := time.Now()
-	setTTL := now.Add(1 * time.Hour).Unix()
+	// now := time.Now()
+	// setTTL := now.Add(1 * time.Hour).Unix()
 
 	err = table.Update("UserID", "1234").
 		Range("Name", "太郎").
